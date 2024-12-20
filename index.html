@@ -3,173 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modulo de Turnos - Windows 8 Style</title>
+    <title>TV Sala de Espera</title>
     <style>
         :root {
-            --background-color: #ffffff;
-            --primary-color: #007bff;
-            --secondary-color: #f8f9fa;
-            --text-color: #000000;
-        }
-
-        [data-theme="dark"] {
-            --background-color: #1e1e1e;
-            --primary-color: #ff5722;
-            --secondary-color: #424242;
-            --text-color: #ffffff;
-        }
-
-        [data-theme="modern"] {
-            --background-color: #ffffff;
-            --primary-color: #004ba0;
-            --secondary-color: #e3f2fd;
-            --text-color: #000000;
+            --primary-color: #4A90E2;
+            --secondary-color: #FFFFFF;
+            --accent-color: #F5A623;
+            --text-color: #333333;
+            --background-color: #F9F9F9;
         }
 
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
+            margin: 0;
             background-color: var(--background-color);
             color: var(--text-color);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-            width: 90%;
-            max-width: 800px;
-        }
-
-        .tile {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        header {
+            width: 100%;
             background-color: var(--primary-color);
             color: var(--secondary-color);
-            border-radius: 5px;
-            height: 100px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.3s;
+            text-align: center;
+            padding: 1rem 0;
         }
 
-        .tile:hover {
-            transform: scale(1.05);
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
         }
 
-        .tile i {
-            font-size: 2rem;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            width: 90%;
+            max-width: 1200px;
+            margin: 1.5rem 0;
         }
 
-        .customization {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .card {
             background-color: var(--secondary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            text-align: center;
             padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            display: flex;
         }
 
-        .customization h2 {
-            margin: 0 0 1rem 0;
+        .card:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 150px;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+          
+        }
+
+        .card h2 {
             color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .theme-switcher {
+            margin: 1rem 0;
         }
 
-        .customization button {
-            padding: 0.5rem 1rem;
-            margin: 0.5rem;
+        .theme-switcher button {
             background-color: var(--primary-color);
             color: var(--secondary-color);
             border: none;
+            padding: 0.5rem 1rem;
+            margin: 0 0.3rem;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease;
         }
 
-        .customization button:hover {
-            background-color: var(--text-color);
+        .theme-switcher button:hover {
+            background-color: var(--accent-color);
+            color: white;
         }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 1rem 0;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            position: fixed;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+
+        @media screen and (max-width: 700px) {
+            .card img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card h2 {
+                font-size: 1.2rem;
+            }
+        }
+        @media screen and (max-width: 500px) {
+            .card img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .card h2 {
+                font-size: 1rem;
+            } 
+        }
+        @media screen and (max-width: 900px) {
+            .card img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card h2 {
+                font-size: 0.8rem;
+            } 
+        }
+        @media screen and (max-width: 1000px) {
+            .card img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .card h2 {
+                font-size: 0.8rem;
+            } 
         }
     </style>
-    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-    <div class="grid">
-        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
-            <i data-feather="home"></i>
-            <span>General</span>
+    <header>
+        <h1>TV SALA DE ESPERA</h1>
+    </header>
+
+    <div class="grid-container">
+        <div class="card">
+            <img src="http://192.168.1.250/images/people.png" alt="Pacientes General">
+            <div class="card-content">
+                <h2>PACIENTES GENERAL</h2>
+                <p>Pacientes General</p>
+            </div>
         </div>
-        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
-            <i data-feather="user"></i>
-            <span>Preferencial</span>
+        <div class="card">
+            <img src="http://192.168.1.250/images/list-2389219.png" alt="Tercera Edad / Embarazada">
+            <div class="card-content">
+                <h2>ENTREGA DE RESULTADOS</h2>
+                <p>Entrega de Resultados</p>
+            </div>
         </div>
-        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
-            <i data-feather="briefcase"></i>
-            <span>Empresarial</span>
-        </div>
-        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
-            <i data-feather="clock"></i>
-            <span>Rápido</span>
+        <div class="card">
+            <img src="http://192.168.1.250/images/boy-1300621.png" alt="Tercera Edad / Embarazada">
+            <div class="card-content">
+                <h2>TERCERA EDAD / EMBARAZADA / ESPECIAL</h2>
+            <p>Tercera Edad / Embarazada / Especial</p>
+            </div>
         </div>
     </div>
 
-    <div class="overlay" id="overlay" onclick="closeCustomization()"></div>
-
-    <div class="customization" id="customization">
-        <h2>Personalizar Tema</h2>
-        <button onclick="changeTheme('default')">Clásico</button>
-        <button onclick="changeTheme('dark')">Oscuro</button>
-        <button onclick="changeTheme('modern')">Moderno</button>
-        <button onclick="changeTheme('vibrant')">Vibrante</button>
-        <button onclick="changeTheme('minimal')">Minimalista</button>
-        <button onclick="closeCustomization()">Cerrar</button>
+    <div class="theme-switcher">
+        <button onclick="changeTheme('default')">Default</button>
+        <button onclick="changeTheme('blue')">Blue</button>
+        <button onclick="changeTheme('dark')">Dark</button>
+        <button onclick="changeTheme('green')">Green</button>
+        <button onclick="changeTheme('purple')">Purple</button>
     </div>
+
+    <footer>
+        <p>&copy; 2024 Clinsis </p>
+    </footer>
 
     <script>
-        let holdTimeout;
+        const themes = {
+            default: {
+                '--primary-color': '#4A90E2',
+                '--secondary-color': '#FFFFFF',
+                '--accent-color': '#F5A623',
+                '--text-color': '#333333',
+                '--background-color': '#F9F9F9'
+            },
+            blue: {
+                '--primary-color': '#007BFF',
+                '--secondary-color': '#F1F8FF',
+                '--accent-color': '#00BFFF',
+                '--text-color': '#003366',
+                '--background-color': '#E6F2FF'
+            },
+            dark: {
+                '--primary-color': '#212121',
+                '--secondary-color': '#FF5722',
+                '--accent-color': '#FF5722',
+                '--text-color': '#E0E0E0',
+                '--background-color': '#121212'
+            },
+            green: {
+                '--primary-color': '#28A745',
+                '--secondary-color': '#E8F5E9',
+                '--accent-color': '#66BB6A',
+                '--text-color': '#1B5E20',
+                '--background-color': '#F1F8E9'
+            },
+            purple: {
+                '--primary-color': '#6F42C1',
+                '--secondary-color': '#F3E5F5',
+                '--accent-color': '#8E44AD',
+                '--text-color': '#4A148C',
+                '--background-color': '#F8F3FF'
+            }
+        };
 
-        function startHold(tile) {
-            holdTimeout = setTimeout(() => {
-                document.getElementById('overlay').style.display = 'block';
-                document.getElementById('customization').style.display = 'block';
-            }, 3000);
+        function changeTheme(themeName) {
+            const theme = themes[themeName];
+            for (let variable in theme) {
+                document.documentElement.style.setProperty(variable, theme[variable]);
+            }
         }
-
-        function clearHold() {
-            clearTimeout(holdTimeout);
-        }
-
-        function closeCustomization() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('customization').style.display = 'none';
-        }
-
-        function changeTheme(theme) {
-            document.body.setAttribute('data-theme', theme);
-        }
-
-        feather.replace();
     </script>
 </body>
 </html>
+
