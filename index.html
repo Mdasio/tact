@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modulo de Turnos - Windows 8 Style</title>
+    <style>
+        :root {
+            --background-color: #ffffff;
+            --primary-color: #007bff;
+            --secondary-color: #f8f9fa;
+            --text-color: #000000;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #1e1e1e;
+            --primary-color: #ff5722;
+            --secondary-color: #424242;
+            --text-color: #ffffff;
+        }
+
+        [data-theme="modern"] {
+            --background-color: #ffffff;
+            --primary-color: #004ba0;
+            --secondary-color: #e3f2fd;
+            --text-color: #000000;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .tile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border-radius: 5px;
+            height: 100px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .tile:hover {
+            transform: scale(1.05);
+        }
+
+        .tile i {
+            font-size: 2rem;
+        }
+
+        .customization {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .customization h2 {
+            margin: 0 0 1rem 0;
+            color: var(--primary-color);
+        }
+
+        .customization button {
+            padding: 0.5rem 1rem;
+            margin: 0.5rem;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .customization button:hover {
+            background-color: var(--text-color);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <div class="grid">
+        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
+            <i data-feather="home"></i>
+            <span>General</span>
+        </div>
+        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
+            <i data-feather="user"></i>
+            <span>Preferencial</span>
+        </div>
+        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
+            <i data-feather="briefcase"></i>
+            <span>Empresarial</span>
+        </div>
+        <div class="tile" onmousedown="startHold(this)" onmouseup="clearHold()" ontouchstart="startHold(this)" ontouchend="clearHold()">
+            <i data-feather="clock"></i>
+            <span>Rápido</span>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeCustomization()"></div>
+
+    <div class="customization" id="customization">
+        <h2>Personalizar Tema</h2>
+        <button onclick="changeTheme('default')">Clásico</button>
+        <button onclick="changeTheme('dark')">Oscuro</button>
+        <button onclick="changeTheme('modern')">Moderno</button>
+        <button onclick="changeTheme('vibrant')">Vibrante</button>
+        <button onclick="changeTheme('minimal')">Minimalista</button>
+        <button onclick="closeCustomization()">Cerrar</button>
+    </div>
+
+    <script>
+        let holdTimeout;
+
+        function startHold(tile) {
+            holdTimeout = setTimeout(() => {
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('customization').style.display = 'block';
+            }, 3000);
+        }
+
+        function clearHold() {
+            clearTimeout(holdTimeout);
+        }
+
+        function closeCustomization() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('customization').style.display = 'none';
+        }
+
+        function changeTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+        }
+
+        feather.replace();
+    </script>
+</body>
+</html>
